@@ -24,7 +24,7 @@ import {
 	UserUpdated,
 	Address,
 	SocialNetworks,
-	currentUserBases,
+	SelectedBase,
 	selectUserById,
 	UserOnServerCreated,
 	selectLastCreatedUserId,
@@ -42,6 +42,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	oldUser: User;
 	selectedTab = 0;
 	loading$: Observable<boolean>;
+	// baseSel$: Observable<Base>;
+	baseSel: Base;
 	rolesSubject = new BehaviorSubject<number[]>([]);
 	addressSubject = new BehaviorSubject<Address>(new Address());
 	soicialNetworksSubject = new BehaviorSubject<SocialNetworks>(new SocialNetworks());
@@ -93,6 +95,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.loading$ = this.store.pipe(select(selectUsersActionLoading));
+		//this.baseSel$ = this.store.pipe(select(SelectedBase))
+		this.store.pipe(select(SelectedBase)).subscribe(res => {
+			this.baseSel = res;
+		})
 		debugger;
 		const routeSubscription =  this.activatedRoute.params.subscribe(params => {
 			const id = params.id;
@@ -184,23 +190,23 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		  Validators.email,
 		  Validators.maxLength(50)
 		])],
-	  street:[this.user.street, Validators.compose([
+	  street:[this.user.userStreet, Validators.compose([
 		Validators.maxLength(50)
 	  ])],
-	  exteriorNumber:[this.user.exteriorNumber,Validators.compose([
+	  exteriorNumber:[this.user.userExteriorNumber,Validators.compose([
 		Validators.maxLength(20)
 	  ])],
-      interiorNumber:[this.user.interiorNumber,Validators.compose([
+      interiorNumber:[this.user.userInteriorNumber,Validators.compose([
 		Validators.maxLength(20)
 	  ])],
-	  zipCode: [this.user.zipCode,Validators.compose([
+	  zipCode: [this.user.userZipCode,Validators.compose([
 		Validators.pattern('^[0-9]*$'),
 		Validators.maxLength(5)
 	  ])],
       expirationDate: [this.user.expirationDate],
-      neighborhood:[this.user.street],
-      state:[this.user.state],
-      city:[this.user.city],
+      neighborhood:[this.user.userStreet],
+      state:[this.user.userState],
+      city:[this.user.userCity],
       bloodtype:[this.user.statusId],
 	  alergiesCondition:[this.user.alergiesCondition],
       contactName: [this.user.contactName,Validators.compose([
@@ -320,16 +326,16 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		_user.expirationDate = this.datepipe.transform(controls.expirationDate.value, 'yyyy-MM-dd');
 		 //'2020-12-12';
 		_user.bloodtype = controls.bloodtype.value;
-		_user.stationId = 1;
+		_user.stationId = this.baseSel.baseId;
 		_user.alergiesCondition = controls.alergiesCondition.value;
 		_user.email = controls.email.value;
-		_user.street = controls.street.value;
-		_user.interiorNumber = controls.interiorNumber.value;
-		_user.exteriorNumber = controls.exteriorNumber.value;
-		_user.zipCode = controls.zipCode.value;
-		_user.neighborhood = controls.neighborhood.value;
-		_user.state = controls.state.value;
-		_user.city = controls.city.value;
+		_user.userStreet = controls.street.value;
+		_user.userInteriorNumber = controls.interiorNumber.value;
+		_user.userExteriorNumber = controls.exteriorNumber.value;
+		_user.userZipCode = controls.zipCode.value;
+		_user.userNeighborhood = controls.neighborhood.value;
+		_user.userState = controls.state.value;
+		_user.userCity = controls.city.value;
 		_user.contactName = controls.contactName.value;
 		_user.contactSurname = controls.contactSurname.value;
   		_user.contactLastname = controls.contactLastname.value;
@@ -435,4 +441,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	ngAfterViewChecked() {
 		this.toolbarService.emit({ parent:{name:'Community info',url:'/community'}, children:[ {name:'Alta de Usuarios', url:'/users/add'}]});
 	  }
+
+	  gopermis(){
+		debugger;
+		console.log(this.user);
+		if(this.user){
+		  const url = `/page3/${this.user.userId}`;
+		  this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+		}
+	}
 }

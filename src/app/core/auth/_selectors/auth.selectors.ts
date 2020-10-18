@@ -25,6 +25,8 @@ export const currentUser = createSelector(selectAuthState, auth => auth.user);
 
 export const currentUserBases = createSelector(selectAuthState, auth => auth.bases); // 07/10/20
 
+export const SelectedBase = createSelector(selectAuthState, auth => auth.selectBase);
+
 export const currentUserRoleIds = createSelector(
     currentUser,
     user => {

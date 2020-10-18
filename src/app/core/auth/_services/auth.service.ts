@@ -9,6 +9,7 @@ import { HttpUtilsService,QueryParamsModel, QueryResultsModel } from '../../_bas
 import { environment } from '../../../../environments/environment';
 import { Base } from '../_models/bases.model';
 import { CustomerModel } from '../../e-commerce/_models/customer.model';
+import { Permis } from '../_models/permis.model';
 
 const API_USERS_URL = 'api/users';
 const API_PERMISSION_URL = 'api/permissions';
@@ -121,6 +122,14 @@ export class AuthService {
   //   return this.http.get<QueryResultsModel>('http://52.226.100.59/api/User');
   //   //return this.http.post<QueryResultsModel>(API_USERS_URL + '/findUsers', queryParams, {headers: httpHeaders});
   // }
+
+  //PEticion para Crear permisos de Usuario
+  createUserPermis(permis: Permis): Observable<Permis> {
+       let httpHeaders = new HttpHeaders();
+       httpHeaders = httpHeaders.set('Content-Type', 'application/json');
+    //   debugger;
+       return this.http.post<Permis>(environment.serverpath + 'User/Permissions', permis, {headers: httpHeaders});
+     }
 
   findUsers(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
     // This code imitates server calls

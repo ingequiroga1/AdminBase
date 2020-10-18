@@ -94,6 +94,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.route.queryParams.subscribe(params => {
 			this.returnUrl = params.returnUrl || '/';
 		});
+
+
 	}
 
 	// openDialog() {
@@ -207,7 +209,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 				tap(user => {
 					if (user) {
 						debugger;
-						if(!this.rememberme){
+						if(this.rememberme){
 							this.cookieService.put('remember','Yes');
 							this.cookieService.put('username',authData.email);
 							this.cookieService.put('password',authData.password);

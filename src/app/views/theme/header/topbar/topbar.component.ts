@@ -1,7 +1,7 @@
 // Angular
 import { Component,OnInit } from '@angular/core';
 import {LayoutConfigService} from '../../../../core/_base/layout';
-import { currentUserBases} from '../../../../core/auth';
+import { currentUserBases, SelectBase} from '../../../../core/auth';
 
 // RxJS
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/reducers';
 import { Base } from '../../../../core/auth/_models/bases.model';
+import filter from '../../../../../../dist/assets/plugins/formvalidation/src/js/core/filter';
 
 @Component({
   selector: 'kt-topbar',
@@ -52,6 +53,11 @@ export class TopbarComponent implements OnInit {
   }
 
   selectbase(event){
-    console.log(event);
+    debugger;
+    console.log(event.value);
+      this.bases$.subscribe((bases: Base[])=>{
+       const bas = bases.filter((v:Base)=>v.baseId===event.value)
+       this.store.dispatch(new SelectBase({base: bas[0]}))
+     });
   }
 }

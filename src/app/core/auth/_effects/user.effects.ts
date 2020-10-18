@@ -21,7 +21,8 @@ import {
     UserUpdated,
     UserOnServerCreated,
     UsersActionToggleLoading,
-    UsersPageToggleLoading
+    UsersPageToggleLoading,
+    CreateUserPermis
 } from '../_actions/user.actions';
 
 @Injectable()
@@ -100,6 +101,22 @@ export class UserEffects {
         return this.hideActionLoadingDistpatcher;
       }),
     );
+
+    @Effect()
+    createUserPermis$ = this.actions$
+      .pipe(
+        ofType<CreateUserPermis>(UserActionTypes.CreateUserPermis),
+        mergeMap(({payload}) => {
+          debugger;
+          this.store.dispatch(this.showActionLoadingDistpatcher);
+          return this.auth.createUserPermis(payload.permis).pipe(
+          //  return this.auth.createUser(payload.user).pipe(
+          );
+        }),
+        map(() => {
+          return this.hideActionLoadingDistpatcher;
+        }),
+      );
 
   constructor(private actions$: Actions, private auth: AuthService, private store: Store<AppState>) {
   }

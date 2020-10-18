@@ -47,6 +47,10 @@ export function usersReducer(state = initialUsersState, action: UserActions): Us
       return {
         ...state
       };
+    case UserActionTypes.CreateUserPermis:
+      return {
+          ...state
+      };
     case UserActionTypes.UserCreated:
       return adapter.addOne(action.payload.user, {
         ...state, lastCreatedUserId: action.payload.user.userId

@@ -14,7 +14,8 @@ export {
     UserRequested,
     UserLoaded,
     AuthActionTypes,
-    AuthActions
+    AuthActions,
+    SelectBase
 } from './_actions/auth.actions';
 export {
     AllPermissionsRequested,
@@ -70,6 +71,7 @@ export {
     currentUserRoleIds,
     currentUserPermissionsIds,
     currentUserPermissions,
+    SelectedBase,
     checkHasUserPermission
 } from './_selectors/auth.selectors';
 export {

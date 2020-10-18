@@ -6,6 +6,7 @@ import { Store} from '@ngrx/store';
 import { User } from '../_models/user.model';
 // Models
 import { QueryParamsModel } from '../../_base/crud';
+import { Permis } from '../_models/permis.model';
 
 export enum UserActionTypes {
     AllUsersRequested = '[Users Module] All Users Requested',
@@ -18,7 +19,9 @@ export enum UserActionTypes {
     UsersPageLoaded = '[Users API] Users Page Loaded',
     UsersPageCancelled = '[Users API] Users Page Cancelled',
     UsersPageToggleLoading = '[Users] Users Page Toggle Loading',
-    UsersActionToggleLoading = '[Users] Users Action Toggle Loading'
+    UsersActionToggleLoading = '[Users] Users Action Toggle Loading',
+    CreateUserPermis = '[Users] Create User Permis',
+    UserPermisCreated = '[Edit User Dialog] User Permis Created',
 }
 
 export class UserOnServerCreated implements Action {
@@ -27,10 +30,22 @@ export class UserOnServerCreated implements Action {
     // constructor(public payload: { user: User}) { }
 }
 
+export class CreateUserPermis implements Action {
+    readonly type = UserActionTypes.CreateUserPermis;
+    constructor(public payload: { permis: Permis }){}
+}
+
 export class UserCreated implements Action {
     readonly type = UserActionTypes.UserCreated;
     constructor(public payload: { user: User }) { }
 }
+
+export class UserPermisCreated implements Action {
+    readonly type = UserActionTypes.UserPermisCreated;
+    constructor(public payload: { permis: Permis }) { }
+}
+
+
 
 
 export class UserUpdated implements Action {
@@ -79,4 +94,7 @@ export type UserActions = UserCreated
 | UsersPageCancelled
 | UsersPageToggleLoading
 | UsersPageRequested
-| UsersActionToggleLoading;
+| UsersActionToggleLoading
+| CreateUserPermis
+| UserPermisCreated;
+

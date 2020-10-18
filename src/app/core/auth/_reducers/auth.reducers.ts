@@ -11,6 +11,7 @@ export interface AuthState {
   isUserLoaded: boolean;
   isBasesLoaded: boolean;
   bases: Base[];
+  selectBase: Base;
 }
 
 export const initialAuthState: AuthState = {
@@ -19,8 +20,8 @@ export const initialAuthState: AuthState = {
   user: undefined,
   isUserLoaded: false,
   isBasesLoaded: false,
-  bases:[]
- 
+  bases:[],
+  selectBase: undefined
 };
 
 export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
@@ -33,7 +34,8 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         user: undefined,
         isUserLoaded: false,
         isBasesLoaded: false,
-        bases: []
+        bases: [],
+        selectBase: undefined
       };
     }
 
@@ -45,7 +47,8 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         user: undefined,
         isUserLoaded: false,
         isBasesLoaded: false,
-        bases:[]
+        bases:[],
+        selectBase: undefined
       };
     }
 
@@ -69,6 +72,14 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         ...state,
         bases,
         isBasesLoaded: true
+      };
+    }
+
+    case AuthActionTypes.SelectBase: {
+      const selectBase: Base = action.payload.base;
+      return{
+        ...state,
+        selectBase
       };
     }
 
