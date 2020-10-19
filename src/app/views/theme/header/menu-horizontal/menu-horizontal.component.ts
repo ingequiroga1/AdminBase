@@ -34,22 +34,27 @@ const menus = {
     {
       iconClasses: 'flaticon-interface-7 text-primary',
       title: 'Community Info',
-      description: 'Community Info'
+      description: 'Community Info',
+      ref: '/user-management'
     },
     {
       iconClasses: 'flaticon-buildings text-warning',
       title: 'Inicio',
-      description: 'Pantalla principal movenco'
+      description: 'Pantalla principal movenco',
+      ref: '/dashboard'
+
     },
     {
       iconClasses: 'flaticon-coins text-info',
       title: 'Administración y Finanzas',
-      description: 'Administración y Finanzas'
+      description: 'Administración y Finanzas',
+      ref: '#'
     },
     {
       iconClasses: 'flaticon-truck text-warning',
       title: 'Movilidad',
-      description: 'Movilidad'
+      description: 'Movilidad',
+      ref: '#'
     }
   ]
 };

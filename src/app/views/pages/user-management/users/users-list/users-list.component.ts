@@ -46,16 +46,14 @@ import { ToolbarService } from 'src/app/views/services/toolbar.service';
 export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 	// Table fields
 	dataSource: UsersDataSource;
-	displayedColumns = [
-		"select",
-		"userId",
-		"Nombre(s)",
-		"Apellido Paterno",
-		"Apellido Materno",
-		"Puesto",
-		"Area",
-		"Tipo de Usuario",
-		"Estatus",
+	displayedColumns =[
+		"userName",
+		"userSurname",
+		"userLastname",
+		"position",
+		"area",
+		"userTypeId",
+		"statusId",
 		"actions"
 	  ];
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -194,13 +192,11 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 			filter.userTypeId = this.filterType;
 		}
 
-
-
-		filter.userLastname = searchText;
-
 		filter.userName = searchText;
-		filter.email = searchText;
+		filter.userSurname = searchText;
 		filter.userLastname = searchText;
+		filter.position = searchText;
+		filter.area = searchText;
 		return filter;
 	}
 

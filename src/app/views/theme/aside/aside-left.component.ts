@@ -8,12 +8,15 @@ import {
 	Renderer2,
 	ViewChild
 } from '@angular/core';
+import { Store} from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import * as objectPath from 'object-path';
 // Layout
 import { LayoutConfigService, MenuAsideService, MenuOptions, OffcanvasOptions } from '../../../core/_base/layout';
 import { HtmlClassService } from '../html-class.service';
+import { AppState } from 'src/app/core/reducers';
+import { Logout } from '../../../core/auth/_actions/auth.actions';
 
 @Component({
   selector: 'kt-aside-left',
@@ -76,7 +79,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     public layoutConfigService: LayoutConfigService,
     private router: Router,
     private render: Renderer2,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private store: Store<AppState>
   ) {
   }
 
@@ -248,5 +252,9 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     if (KTUtil.isBreakpointDown('lg') && this.offcanvas) { // Tablet and mobile mode
       this.offcanvas.hide(); // Hide offcanvas after general link click
     }
+  }
+
+  logout(){
+    this.store.dispatch(new Logout());
   }
 }

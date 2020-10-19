@@ -14,9 +14,11 @@ export interface UsersState extends EntityState<User> {
   actionsloading: boolean;
   totalCount: number;
   lastCreatedUserId: number;
+  lastCreatedPermisUserId: number;
   lastQuery: QueryParamsModel;
   showInitWaitingMessage: boolean;
   userId: number;
+  basesCreated: boolean;
 }
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
@@ -29,8 +31,10 @@ export const initialUsersState: UsersState = adapter.getInitialState({
   totalCount: 0,
   lastQuery: new QueryParamsModel({}),
   lastCreatedUserId: undefined,
+  lastCreatedPermisUserId: undefined,
   showInitWaitingMessage: true,
-  userId: 0
+  userId: 0,
+  basesCreated: false
 });
 
 export function usersReducer(state = initialUsersState, action: UserActions): UsersState {
@@ -55,6 +59,12 @@ export function usersReducer(state = initialUsersState, action: UserActions): Us
       return adapter.addOne(action.payload.user, {
         ...state, lastCreatedUserId: action.payload.user.userId
       });
+
+    // case UserActionTypes.UserPermisCreated:
+    //     return adapter.addOne(action.payload.permis, {
+    //       ...state, lastCreatedUserId: action.payload.permis.userId
+    //     });
+    
     case UserActionTypes.UserUpdated:
       return adapter.updateOne(action.payload.partialUser, state);
     case UserActionTypes.UserDeleted:

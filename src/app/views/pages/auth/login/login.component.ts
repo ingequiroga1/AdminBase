@@ -307,7 +307,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     </div>
     
                     <div  mat-dialog-actions class="w-75" >
-                        <button mat-button [mat-dialog-close]="data.passn===data.confpass ? data.passn : undefined" class="btn btn-primary btn-block p-4 ">Inciar Sesión</button>
+                        <button mat-button [mat-dialog-close]="data.passn===data.confpass ? data.passn : sendError()" class="btn btn-primary btn-block p-4 ">Inciar Sesión</button>
                     </div>
              </div>
         </div>
@@ -341,5 +341,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 		const result = control.hasError(validationType) && (control.dirty || control.touched);
 		return result;
+	}
+
+	sendError(){
+		alert("LAs contraseñas no coinciden");
 	}
   }
