@@ -2,7 +2,7 @@
 <div class="custom-subheader custom-subheader-background-topbar h-100" *ngIf="!isDashboard">
     <div class="px-4">
         <div class="custom-subheader-container">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" style="margin: 12px 0">
                 <ng-container *ngIf="routeData && routeData.parent">
                     <p class="custom-subheader-title">
                         <a [routerLink]="routeData.url">
@@ -22,7 +22,7 @@
 
                 </ng-container>
             </div>
-            <div class="d-flex align-items-center justify-content-end" style="width:340px">
+            <div class="d-flex align-items-center justify-content-end" style="width:340px" *ngIf="isMain">
                 <a class="custom-subheader-link" href='javascript:void(0)'>Importar</a>
                 <div style="margin-right:40px">
                     <button [routerLink]="['/user-management/users/add']" class="btn btn-link custom-subheader-btn-topbar"><i class="fa fa-user-plus"></i>&nbsp;Nuevo

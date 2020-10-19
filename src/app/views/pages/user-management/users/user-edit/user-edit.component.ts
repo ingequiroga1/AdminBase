@@ -159,7 +159,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	createForm() {
 		this.userForm = this.userFB.group({
       userType: [this.user.userTypeId],
-      stationId:[this.user.stationId],
+      stationId:[this.user.baseId],
       statusId:[this.user.statusId],
       userName:[this.user.userName, Validators.compose([
 		  Validators.pattern('^[a-zA-Z ]*$'),
@@ -326,7 +326,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		_user.expirationDate = this.datepipe.transform(controls.expirationDate.value, 'yyyy-MM-dd');
 		 //'2020-12-12';
 		_user.bloodtype = controls.bloodtype.value;
-		_user.stationId = this.baseSel.baseId;
+		_user.baseId = this.baseSel.baseId;
 		_user.alergiesCondition = controls.alergiesCondition.value;
 		_user.email = controls.email.value;
 		_user.userStreet = controls.street.value;

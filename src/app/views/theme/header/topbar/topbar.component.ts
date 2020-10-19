@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/reducers';
 import { Base } from '../../../../core/auth/_models/bases.model';
-import filter from '../../../../../../dist/assets/plugins/formvalidation/src/js/core/filter';
+import { FormBuilder, FormGroup,FormControl,Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'kt-topbar',
@@ -29,6 +30,19 @@ export class TopbarComponent implements OnInit {
   userDropdownStyle = 'light';
 
   bases$: Observable<Base[]>;
+
+  formBases: FormGroup;
+
+  selected = {
+    baseId: undefined,
+    name: undefined,
+    baseNumber: undefined,
+    statusId: undefined,
+    clientId: 0,
+    contactId: 0,
+    addressId: 0
+  };
+  nombre = ''
   // basesUser = [];
 
   constructor(private layoutConfigService: LayoutConfigService,
@@ -47,8 +61,9 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.bases$ = this.store.pipe(select(currentUserBases));
     // this.bases$.subscribe((bases: Base[])=>{
-    //   console.log(bases);
-    //   this.basesUser = bases;
+    //   const bas = bases.filter((v:Base)=>v.baseId===10)
+    //   this.nombre = bas[0].name
+    //   this.store.dispatch(new SelectBase({base: bas[0]}))
     // });
   }
 

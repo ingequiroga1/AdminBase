@@ -24,6 +24,7 @@ export class SubheaderComponent implements OnInit {
   subheaderClasses = 'kt_subheader';
   subheaderContainerClasses = '';
   @Input() isDashboard;
+  @Input() isMain;
   /**
    * Component constructor
    *
@@ -31,6 +32,8 @@ export class SubheaderComponent implements OnInit {
    * @param uiService: HtmlClassService
    */
 
+
+   
   routeData = null;
   constructor(
       private layoutConfigService: LayoutConfigService,

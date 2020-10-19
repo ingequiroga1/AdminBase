@@ -1,10 +1,11 @@
-import { BaseModel } from '../../_base/crud/models/_base.model';
-export class Permis extends BaseModel {
-    userId= 0;
-    basic= false;
-    medium= false;
-    premium= false;
-    sharebalance=false;
-    adduser=false;
+
+export class Permis {
+    userId: number;
+    basic: boolean;
+    medium: boolean;
+    premium: boolean;
+    sharebalance: boolean;
+    adduser: boolean;
     bases: number[]
+
   };

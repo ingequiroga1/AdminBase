@@ -45,7 +45,8 @@ export {
     UsersPageCancelled,
     UsersPageToggleLoading,
     UsersPageRequested,
-    UsersActionToggleLoading
+    UsersActionToggleLoading,
+    CreateUserPermis
 } from './_actions/user.actions';
 
 // EFFECTS
