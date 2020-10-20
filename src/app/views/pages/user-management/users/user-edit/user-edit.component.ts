@@ -54,6 +54,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	addpermitions = false;
 
 	isMover= true; // 08/10/2020
+  
+  ischecked = 'Activo'; // 20/10/20
 
 
 
@@ -160,7 +162,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		this.userForm = this.userFB.group({
       userType: [this.user.userTypeId],
       stationId:[this.user.baseId],
-      statusId:[this.user.statusId],
       userName:[this.user.userName, Validators.compose([
 		  Validators.pattern('^[a-zA-Z ]*$'),
 		  Validators.required,
@@ -316,7 +317,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		_user.userId = this.user.userId;
 		_user.userTypeId = controls.userType.value;
 		_user.password = 'string';
-		_user.statusId = controls.statusId ? "Activo" : "Inactivo";
+		_user.statusId = this.ischecked ? "Activo" : "Inactivo"; //20/10/20
 		_user.username = controls.userName.value;
 		_user.userSurname = controls.userSurname.value;
 		_user.userLastname = controls.userLastname.value;
