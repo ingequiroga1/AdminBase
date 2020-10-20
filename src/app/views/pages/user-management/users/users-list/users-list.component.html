@@ -170,8 +170,8 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
             <!-- Message for empty data  -->
-            <div class="mat-table-message" *ngIf="!dataSource.hasItems">No records found</div>
-            <div class="mat-table-message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+            <div class="mat-table-message" *ngIf="!dataSource.hasItems">No se encontraron registros</div>
+            <div class="mat-table-message" *ngIf="dataSource.isPreloadTextViewed$ | async">Por favor espere....</div>
         </div>
 
         <!-- start: BOTTOM -->
