@@ -186,13 +186,13 @@
             </div>
 
             <div class="custom-mt-sm-2rem col-lg-4 col-xl-4 col-md-4 col-sm-12">
-                <div class="d-flex flex-column">
+               <div class="d-flex flex-column">
                     <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">{{"Estatus" | translate }}</h3>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <label>{{'Estatus' | translate }}</label>
-                                <mat-slide-toggle formControlName="statusId"></mat-slide-toggle>
+                                <label>{{ischecked}}</label>
+                                <mat-slide-toggle [(ngModel)]="ischecked" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
                             </div>
                         </div>
                     </div>
