@@ -97,6 +97,8 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 	 */
 	ngOnInit() {
 		this.paginator._intl.itemsPerPageLabel='Elementos por página';
+	
+		
 		// load roles list
 		const rolesSubscription = this.store.pipe(select(selectAllRoles)).subscribe(res => this.allRoles = res);
 		this.subscriptions.push(rolesSubscription);

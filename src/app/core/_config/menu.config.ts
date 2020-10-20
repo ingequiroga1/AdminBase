@@ -489,6 +489,7 @@ export class MenuConfig {
             // }
           ],
         },
+       
         {
           title: "Eficiencia comunitaria",
           root: true,
@@ -506,6 +507,18 @@ export class MenuConfig {
           root: true,
           bullet: "dot",
           icon: "flaticon-interface-10",
+          submenu: [
+            // {
+            //   title: "Operador de Flota",
+            //   page: "" ,
+            // }
+          ],
+        },
+        {
+          title: "Calendario de Reservas",
+          root: true,
+          bullet: "dot",
+          icon: "flaticon-time-2",
           submenu: [
             // {
             //   title: "Operador de Flota",
