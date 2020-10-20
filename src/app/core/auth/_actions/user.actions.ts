@@ -67,6 +67,7 @@ export class UsersPageRequested implements Action {
 }
 
 export class UsersPageLoaded implements Action {
+    debugger;
     readonly type = UserActionTypes.UsersPageLoaded;
     constructor(public payload: { users: User[], totalCount: number, page: QueryParamsModel  }) { }
 }

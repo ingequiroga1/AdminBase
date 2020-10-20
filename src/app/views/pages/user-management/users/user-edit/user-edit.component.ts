@@ -17,6 +17,8 @@ import { DatePipe } from '@angular/common'
 
 import { ToolbarService } from '../../../../services/toolbar.service';
 import { Base } from '../../../../../core/auth/_models/bases.model';
+import { SelectedAreas, SelectedPositions } from '../../../../../core/auth/_selectors/auth.selectors';
+import { AreasRequested, PositionRequested } from '../../../../../core/auth/_actions/auth.actions';
 
 // Services and Models
 import {
@@ -55,7 +57,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 	isMover= true; // 08/10/2020
   
-  ischecked = 'Activo'; // 20/10/20
+	ischecked = 'Activo'; // 20/10/20
+	
+	allAreas: string[];
+
+	allPositions: string[];
+
+	today = '';
 
 
 
@@ -96,11 +104,22 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+		this.store.dispatch(new AreasRequested());
+          this.store.dispatch(new PositionRequested());
 		this.loading$ = this.store.pipe(select(selectUsersActionLoading));
-		//this.baseSel$ = this.store.pipe(select(SelectedBase))
+		// this.baseSel$ = this.store.pipe(select(SelectedBase))
 		this.store.pipe(select(SelectedBase)).subscribe(res => {
 			this.baseSel = res;
 		})
+		
+		this.store.pipe(select(SelectedAreas)).subscribe(res => {
+			this.allAreas = res.result;
+		})
+
+		this.store.pipe(select(SelectedPositions)).subscribe(res => {
+			this.allPositions = res.result;
+		})
+
 		debugger;
 		const routeSubscription =  this.activatedRoute.params.subscribe(params => {
 			const id = params.id;
@@ -163,17 +182,18 @@ export class UserEditComponent implements OnInit, OnDestroy {
       userType: [this.user.userTypeId],
       stationId:[this.user.baseId],
       userName:[this.user.userName, Validators.compose([
-		  Validators.pattern('^[a-zA-Z ]*$'),
+		  Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'),
 		  Validators.required,
 		  Validators.maxLength(50)
 		])],
+
       userSurname:[this.user.userSurname, Validators.compose([
-		  Validators.pattern('^[a-zA-Z ]*$'),
+		  Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'),
 		  Validators.required,
 		  Validators.maxLength(50)
 		])],
       userLastname: [this.user.userLastname, Validators.compose([
-		  Validators.pattern('^[a-zA-Z ]*$'), 
+		  Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'), 
 		  Validators.required,
 		  Validators.maxLength(50)
 		])],
@@ -187,17 +207,21 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			Validators.required
 		])],
       email:[this.user.email, Validators.compose([
-		  Validators.required, 
+		Validators.pattern('^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$'),
+		  Validators.required,
 		  Validators.email,
 		  Validators.maxLength(50)
 		])],
 	  street:[this.user.userStreet, Validators.compose([
+		Validators.pattern('^(?! +$)[a-zA-Z0-9 ]*$'),
 		Validators.maxLength(50)
 	  ])],
 	  exteriorNumber:[this.user.userExteriorNumber,Validators.compose([
+		Validators.pattern('^(?! +$)[a-zA-Z0-9 ]*$'),
 		Validators.maxLength(20)
 	  ])],
       interiorNumber:[this.user.userInteriorNumber,Validators.compose([
+		Validators.pattern('^(?! +$)[a-zA-Z0-9 ]*$'),
 		Validators.maxLength(20)
 	  ])],
 	  zipCode: [this.user.userZipCode,Validators.compose([
@@ -208,20 +232,20 @@ export class UserEditComponent implements OnInit, OnDestroy {
       neighborhood:[this.user.userStreet],
       state:[this.user.userState],
       city:[this.user.userCity],
-      bloodtype:[this.user.statusId],
+      bloodtype:[this.user.bloodtype],
 	  alergiesCondition:[this.user.alergiesCondition],
       contactName: [this.user.contactName,Validators.compose([
-		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'),
 		Validators.required,
 		Validators.maxLength(50)
 	  ])],
       contactSurname:[this.user.contactSurname, Validators.compose([
-		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'),
 		Validators.required,
 		Validators.maxLength(50)
 	  ])],
       contactLastname:[this.user.contactLastname, Validators.compose([
-		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'),
 		Validators.required,
 		Validators.maxLength(50)
 	  ])],
@@ -324,7 +348,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		_user.userPosition = controls.userRole.value;
 		_user.userArea = controls.userArea.value;
 		_user.userMobile = +controls.userMobile.value;
-		_user.expirationDate = this.datepipe.transform(controls.expirationDate.value, 'yyyy-MM-dd');
+		// tslint:disable-next-line: max-line-length
+		_user.expirationDate =  controls.userType.value==='Mover' ? this.datepipe.transform(controls.expirationDate.value, 'yyyy-MM-dd') : this.today;
 		 //'2020-12-12';
 		_user.bloodtype = controls.bloodtype.value;
 		_user.baseId = this.baseSel.baseId;
@@ -432,7 +457,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 	changeType(typeuser){
 		 if(typeuser._value === 'Rider'){
-		 	this.isMover = false;
+			 this.isMover = false;
+			 let today = new Date();
+		     let dd = String(today.getDate()).padStart(2, '0');
+			 let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+			 let yyyy = today.getFullYear();
+
+			 this.today =yyyy+'-'+mm+'-'+dd;
 		 }
 		 else{
 			this.isMover = true;

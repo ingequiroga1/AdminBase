@@ -12,6 +12,10 @@ export interface AuthState {
   isBasesLoaded: boolean;
   bases: Base[];
   selectBase: Base;
+  isAreasLoaded: boolean,
+  areas: string[];
+  isPositionsLoaded: boolean,
+  positions: string[]
 }
 
 export const initialAuthState: AuthState = {
@@ -21,7 +25,11 @@ export const initialAuthState: AuthState = {
   isUserLoaded: false,
   isBasesLoaded: false,
   bases:[],
-  selectBase: undefined
+  selectBase: undefined,
+  isAreasLoaded: undefined,
+  areas: [],
+  isPositionsLoaded: undefined,
+  positions: []
 };
 
 export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
@@ -35,7 +43,11 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         isUserLoaded: false,
         isBasesLoaded: false,
         bases: [],
-        selectBase: undefined
+        selectBase: undefined,
+        isAreasLoaded: undefined,
+        areas: [],
+        isPositionsLoaded: undefined,
+        positions:[]
       };
     }
 
@@ -48,7 +60,11 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         isUserLoaded: false,
         isBasesLoaded: false,
         bases:[],
-        selectBase: undefined
+        selectBase: undefined,
+        isAreasLoaded: undefined,
+        areas: [],
+        isPositionsLoaded: false,
+        positions: []
       };
     }
 
@@ -56,7 +72,6 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
       return initialAuthState;
 
     case AuthActionTypes.UserLoaded: {
-      debugger;
       const user: User = action.payload.user;
       return {
         ...state,
@@ -66,12 +81,29 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
     }
 
     case AuthActionTypes.UserBasesLoaded: {
-      debugger;
       const bases: Base[] = action.payload.bases;
       return {
         ...state,
         bases,
         isBasesLoaded: true
+      };
+    }
+
+    case AuthActionTypes.UserAreasLoaded: {
+      const areas: string[] = action.payload.areas;
+      return {
+        ...state,
+        areas,
+        isAreasLoaded: true
+      };
+    }
+
+    case AuthActionTypes.UserPositionLoaded: {
+      const positions: string[] = action.payload.positions;
+      return {
+        ...state,
+        positions,
+        isPositionsLoaded: true
       };
     }
 

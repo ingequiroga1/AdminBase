@@ -37,14 +37,23 @@
 
 
 
-        <mat-form-field class="mat-form-field-fluid" *ngIf="bases$ | async as _bases">
+        <!-- <mat-form-field class="mat-form-field-fluid" *ngIf="bases$ | async as _bases">
             <mat-select (selectionChange)="selectbase($event)">
                 <mat-option *ngFor="let base of _bases" [value]="base.baseId">
                     {{ base.name}}
                 </mat-option>
             </mat-select>
 
-        </mat-form-field>
+        </mat-form-field> -->
+        <form [formGroup]="formBases">
+            <mat-form-field class="mat-form-field-fluid">
+                <mat-select formControlName='baseName' (selectionChange)="selectbase($event)">
+                    <mat-option *ngFor="let base of allBases" [value]="base.baseId">
+                        {{ base.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
 
 
 

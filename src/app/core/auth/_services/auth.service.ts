@@ -48,6 +48,14 @@ export class AuthService {
     return this.http.get<Base[]>(environment.serverpath + 'Base/client/'+userToken);
   }
 
+  getAllAreas(): Observable<string[]> {
+    return this.http.get<string[]>(environment.serverpath + 'User/Area');
+  }
+
+  getAllPositions(): Observable<string[]> {
+    return this.http.get<string[]>(environment.serverpath + 'User/Position');
+  }
+
 
   register(user: User): Observable<any> {
     let httpHeaders = new HttpHeaders();

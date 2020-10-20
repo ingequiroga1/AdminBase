@@ -10,13 +10,18 @@ import { Subscription } from 'rxjs';
 import { Base } from '../../../core/auth/_models/bases.model';
 import { Permis } from '../../../core/auth/_models/permis.model';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 // Services and Models
 import {
   currentUserBases,
   selectLastCreatedUserId,
   CreateUserPermis
 } from '../../../core/auth';
+
+import {
+  LayoutUtilsService,
+  MessageType
+} from '../../../core/_base/crud';
 
 
 @Component({
@@ -47,9 +52,11 @@ export class CustomPage3Component implements OnInit , AfterViewChecked{
   // Private properties
 	private subscriptions: Subscription[] = [];
 
-  constructor(private activatedRoute:ActivatedRoute,
-                      private toolbarService:ToolbarService,
-              private store: Store<AppState>,) { }
+  constructor( private activatedRoute:ActivatedRoute,
+    private toolbarService:ToolbarService,
+               private store: Store<AppState>,
+               private layoutUtilsService: LayoutUtilsService,
+               private router:Router) { }
 
   ngOnInit(): void {
     // const routSubscription =  this.activatedRoute.params.subscribe(params => {
@@ -99,6 +106,9 @@ export class CustomPage3Component implements OnInit , AfterViewChecked{
     console.log(this.permis);
 
     this.store.dispatch(new CreateUserPermis({ permis: this.permis }));
+    this.layoutUtilsService.showActionNotification('Registro insertado correctamente', MessageType.Create, 10000, true, false);
+    const url = `/dashboard`;
+		this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
   }
 
 }

@@ -3,7 +3,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // NgBootstrap
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 // Translation
@@ -103,6 +103,7 @@ import { NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
     CoreModule,
     PerfectScrollbarModule,
     FormsModule,
+    ReactiveFormsModule,
     MatProgressBarModule,
     MatTabsModule,
     MatButtonModule,

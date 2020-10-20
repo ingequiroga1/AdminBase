@@ -32,21 +32,17 @@ export class TopbarComponent implements OnInit {
   bases$: Observable<Base[]>;
 
   formBases: FormGroup;
+  selected = 'Unosquare';
 
-  selected = {
-    baseId: undefined,
-    name: undefined,
-    baseNumber: undefined,
-    statusId: undefined,
-    clientId: 0,
-    contactId: 0,
-    addressId: 0
-  };
   nombre = ''
+  allBases:Base[];
+  seloption = 'Opcion';
+ 
   // basesUser = [];
 
   constructor(private layoutConfigService: LayoutConfigService,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private FB: FormBuilder ) {
     this.searchDisplay = this.layoutConfigService.getConfig('extras.search.display');
     this.notificationsDisplay = this.layoutConfigService.getConfig('extras.notifications.display');
     this.quickActionsDisplay = this.layoutConfigService.getConfig('extras.quick-actions.display');
@@ -59,7 +55,22 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bases$ = this.store.pipe(select(currentUserBases));
+    this.store.pipe(select(currentUserBases)).subscribe(res => {
+      this.allBases = res;
+    })
+
+   
+    
+    this.formBases = this.FB.group({
+      baseName:['Unosquare']
+    });
+
+     const baseDefault = this.allBases.find(b => b.baseId = 10);
+     this.formBases.get('baseName').setValue(10)
+  
+
+    //this.bases$ = this.store.pipe(select(currentUserBases));
+
     // this.bases$.subscribe((bases: Base[])=>{
     //   const bas = bases.filter((v:Base)=>v.baseId===10)
     //   this.nombre = bas[0].name
@@ -70,9 +81,13 @@ export class TopbarComponent implements OnInit {
   selectbase(event){
     debugger;
     console.log(event.value);
-      this.bases$.subscribe((bases: Base[])=>{
-       const bas = bases.filter((v:Base)=>v.baseId===event.value)
-       this.store.dispatch(new SelectBase({base: bas[0]}))
-     });
+    //   this.bases$.subscribe((bases: Base[])=>{
+    //    const bas = bases.filter((v:Base)=>v.baseId===event.value)
+    //    this.store.dispatch(new SelectBase({base: bas[0]}))
+    //  });
+    const bas = this.allBases.filter((v:Base)=>v.baseId===event.value)
+    this.store.dispatch(new SelectBase({base: bas[0]}))
+
+    
   }
 }

@@ -50,8 +50,8 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 		"userName",
 		"userSurname",
 		"userLastname",
-		"position",
-		"area",
+		"userPosition",
+		"userArea",
 		"userTypeId",
 		"statusId",
 		"actions"

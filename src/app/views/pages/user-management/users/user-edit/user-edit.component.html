@@ -186,7 +186,7 @@
             </div>
 
             <div class="custom-mt-sm-2rem col-lg-4 col-xl-4 col-md-4 col-sm-12">
-               <div class="d-flex flex-column">
+                <div class="d-flex flex-column">
                     <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">{{"Estatus" | translate }}</h3>
                     <div class="card">
                         <div class="card-body">
@@ -210,23 +210,8 @@
                                         <mat-label>{{"Area" | translate }}*</mat-label>
                                         <input type="text" formControlName="userArea" matInput [matAutocomplete]="auto">
                                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                            <mat-option value="Mercadotecnia">
-                                                Mercadotecnia
-                                            </mat-option>
-                                            <mat-option value="Operaciones">
-                                                Operaciones
-                                            </mat-option>
-                                            <mat-option value="TI">
-                                                TI
-                                            </mat-option>
-                                            <mat-option value="RH">
-                                                RH
-                                            </mat-option>
-                                            <mat-option value="Comercial">
-                                                Comercial
-                                            </mat-option>
-                                            <mat-option value="Contabilidad">
-                                                Contabilidad
+                                            <mat-option *ngFor="let area of allAreas" [value]="area">
+                                                {{area}}
                                             </mat-option>
                                         </mat-autocomplete>
                                     </mat-form-field>
@@ -236,10 +221,10 @@
                                         <mat-label>{{"Puesto" | translate }}*</mat-label>
                                         <input type="text" formControlName="userRole" matInput [matAutocomplete]="autoRole">
                                         <mat-autocomplete autoActiveFirstOption #autoRole="matAutocomplete">
-                                            <mat-option value="Jefatura">
-                                                Jefatura
+                                            <mat-option *ngFor="let position of allPositions" [value]="position">
+                                                {{position}}
                                             </mat-option>
-                                            <mat-option value="Coordinador">
+                                            <!-- <mat-option value="Coordinador">
                                                 Coordinador
                                             </mat-option>
                                             <mat-option value="Gerencia">
@@ -247,7 +232,7 @@
                                             </mat-option>
                                             <mat-option value="Dirección">
                                                 Dirección
-                                            </mat-option>
+                                            </mat-option> -->
                                         </mat-autocomplete>
                                     </mat-form-field>
                                 </div>

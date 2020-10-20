@@ -10,7 +10,11 @@ export enum AuthActionTypes {
     UserLoaded = '[Load User] Auth API',
     BasesRequested = '[Request Bases] Action',
     UserBasesLoaded = '[Load UserBases] Action',
-    SelectBase = '[Load SelectBase] Action'
+    SelectBase = '[Load SelectBase] Action',
+    UserAreasLoaded = '[Load UserAreas] Action',
+    AreasRequested = '[Request Bases] Action',
+    UserPositionLoaded = '[Load UserPositions] Action',
+    PositionRequested = '[Request Positions] Action'
 }
 
 export class Login implements Action {
@@ -47,6 +51,27 @@ export class BasesRequested implements Action {
     readonly type = AuthActionTypes.BasesRequested;
 }
 
+export class UserAreasLoaded implements Action {
+    debugger;
+    readonly type = AuthActionTypes.UserAreasLoaded;
+    constructor(public payload: { areas: string[] }) { }
+}
+
+export class AreasRequested implements Action {
+    readonly type = AuthActionTypes.AreasRequested;
+}
+
+
+export class UserPositionLoaded implements Action {
+    debugger;
+    readonly type = AuthActionTypes.UserPositionLoaded;
+    constructor(public payload: { positions: string[] }) { }
+}
+
+export class PositionRequested implements Action {
+    readonly type = AuthActionTypes.PositionRequested;
+}
+
 export class SelectBase implements Action{
     readonly type = AuthActionTypes.SelectBase;
     constructor(public payload: {base: Base}){}
@@ -55,4 +80,4 @@ export class SelectBase implements Action{
 
 
 export type AuthActions = Login | Logout | Register | UserRequested |
-UserLoaded | UserBasesLoaded | UserLoaded | SelectBase;
+UserLoaded | UserBasesLoaded | UserLoaded | SelectBase | BasesRequested | UserAreasLoaded | UserPositionLoaded | PositionRequested ;

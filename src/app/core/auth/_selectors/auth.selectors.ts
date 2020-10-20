@@ -21,11 +21,19 @@ export const isUserLoaded = createSelector(selectAuthState, auth => auth.isUserL
 
 export const isBasesLoaded = createSelector(selectAuthState, auth => auth.isBasesLoaded);
 
+export const isAreasLoaded = createSelector(selectAuthState, auth => auth.isAreasLoaded);
+
+export const isPositionLoaded = createSelector(selectAuthState, auth => auth.isPositionLoaded);
+
 export const currentUser = createSelector(selectAuthState, auth => auth.user);
 
 export const currentUserBases = createSelector(selectAuthState, auth => auth.bases); // 07/10/20
 
 export const SelectedBase = createSelector(selectAuthState, auth => auth.selectBase);
+
+export const SelectedAreas = createSelector(selectAuthState, auth => auth.areas);
+
+export const SelectedPositions = createSelector(selectAuthState, auth => auth.positions);
 
 export const currentUserRoleIds = createSelector(
     currentUser,

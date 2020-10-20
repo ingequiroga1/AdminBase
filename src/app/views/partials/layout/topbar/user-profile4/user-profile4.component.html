@@ -1,6 +1,6 @@
 <ng-container *ngIf="customer$ | async as _customer">
     <div class="topbar-item" data-placement="bottom">
-        <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-5" id="kt_quick_user_toggle">
+        <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-5">
             <!-- <ng-container *ngIf="greeting">
                 <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hola,</span>
             </ng-container> -->
@@ -9,7 +9,7 @@
 						{{_customer.name | firstLetter}}
 					</span>
             </span> -->
-            <div>
+            <div style="margin: 0 15px;">
                 <img class="h-25px w-25px rounded" src="../../../../../../assets/images/logo.png" alt="language" />
             </div>
             <span class="text-dark-50 font-weight-bolder font-size-base d-none  d-md-inline mr-5">
