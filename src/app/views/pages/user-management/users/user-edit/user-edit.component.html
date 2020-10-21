@@ -22,7 +22,7 @@
 
                                         </mat-select>
                                         <mat-hint align="start">
-                                            <strong>Account Type</strong>
+                                            <strong>Tipo de Cuenta</strong>
                                         </mat-hint>
                                     </mat-form-field>
                                 </div>
@@ -46,13 +46,13 @@
                                 </div>
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{"Apellidos Paterno" | translate }}*</mat-label>
+                                        <mat-label>{{"Apellido Paterno" | translate }}*</mat-label>
                                         <input formControlName="userSurname" matInput />
                                     </mat-form-field>
                                 </div>
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{"Apellidos Materno" | translate }}*</mat-label>
+                                        <mat-label>{{"Apellido Materno" | translate }}*</mat-label>
                                         <input formControlName="userLastname" matInput/>
                                     </mat-form-field>
                                 </div>
@@ -72,14 +72,11 @@
                                 </div>
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{'Correo electrónico' | translate }}*</mat-label>
+                                        <mat-label>{{'Correo Electrónico' | translate }}*</mat-label>
                                         <input formControlName="email" matInput/>
-                                        <mat-error>Email is
-                                            <strong>required</strong>
+                                        <mat-error>Email es
+                                            <strong>requerido</strong>
                                         </mat-error>
-                                        <mat-hint align="start">Please enter
-                                            <strong>Email</strong>
-                                        </mat-hint>
                                     </mat-form-field>
                                 </div>
                                 <div *ngIf='isMover'>
@@ -191,7 +188,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <label>{{ischecked}}</label>
+                                <label>Activo</label>
                                 <mat-slide-toggle [(ngModel)]="ischecked" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
                             </div>
                         </div>
@@ -207,10 +204,10 @@
                             <div class="d-flex flex-column">
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{"Area" | translate }}*</mat-label>
-                                        <input type="text" formControlName="userArea" matInput [matAutocomplete]="auto">
+                                        <mat-label>{{"Área" | translate }}*</mat-label>
+                                        <input type="text" [formControl]="areaControl" formControlName="userArea" matInput [matAutocomplete]="auto">
                                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                            <mat-option *ngFor="let area of allAreas" [value]="area">
+                                            <mat-option *ngFor="let area of filteredAreas | async" [value]="area">
                                                 {{area}}
                                             </mat-option>
                                         </mat-autocomplete>

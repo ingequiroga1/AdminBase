@@ -34,8 +34,8 @@ export class CustomPage3Component implements OnInit , AfterViewChecked{
   basicGama=false;
   mediumGama=false;
   premiumGama=false;
-  shareBal = false;
-  addUs = false;
+  shareBal = true;
+  addUs = true;
   bases: Array<number>=[];
 
   allBases: Base[] = [];
@@ -107,7 +107,7 @@ export class CustomPage3Component implements OnInit , AfterViewChecked{
 
     this.store.dispatch(new CreateUserPermis({ permis: this.permis }));
     this.layoutUtilsService.showActionNotification('Registro insertado correctamente', MessageType.Create, 10000, true, false);
-    const url = `/dashboard`;
+    const url = `/user-management/users`;
 		this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
   }
 

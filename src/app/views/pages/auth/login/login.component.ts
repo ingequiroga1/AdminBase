@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
 import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { LayoutUtilsService, MessageType } from '../../../../core/_base/crud/utils/layout-utils.service';
 import { CustomerChangePassword } from '../../../../core/e-commerce/_actions/customer.actions';
 import { calendarFormat } from 'moment';
@@ -125,17 +125,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 		 }
 		});
 		dialogRef.afterClosed().subscribe(result => {
-		  if(!result){
-			const message = `Las contraseñas no coinciden.`;
-			this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, false);
-		  }
-		  else{
 			debugger;
+		 // if(!result){
+		//	const message = `Las contraseñas no coinciden.`;
+		//	this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, false);
+		 // }
+		 // else{
+		
 			this.store.dispatch(new CustomerChangePassword({idcust: clientid, pass: result}));
 			const message = `Se cambio la contraseña.`;
 			this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, false);
-			this.ResetForm();
-		  }
+		  // }
 		});
 	  }
 
@@ -291,23 +291,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                         <mat-form-field class="mat-form-field-fluid">
                             <mat-label>Repetir Contraseña</mat-label>
 							<input type="password" autocomplete="off" matInput [(ngModel)]="data.confpass" formControlName="confirmpass"  class="p-2"/>
-							<mat-error *ngIf="passHasError('email', 'required')">
-	                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
-		                    </mat-error>
-		                    <mat-error *ngIf="passHasError('email', 'email')">
-		                        <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
-		                    </mat-error>
-		                    <mat-error *ngIf="passHasError('email', 'minlength')">
-		                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
-		                    </mat-error>
-		                    <mat-error *ngIf="passHasError('email', 'maxlength')">
-		                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
+							<mat-error *ngIf="MustMatch('newpass', 'confirmpass')">
+		                        <strong>{{ "No coinciden las contraseñas" | translate }}</strong>
 		                    </mat-error>
                         </mat-form-field>
                     </div>
     
                     <div  mat-dialog-actions class="w-75" >
-                        <button mat-button [mat-dialog-close]="data.passn===data.confpass ? data.passn : sendError()" class="btn btn-primary btn-block p-4 ">Inciar Sesión</button>
+                        <button mat-button class="btn btn-primary btn-block p-4" (click)="validate(data.confpass)">Inciar Sesión</button>
                     </div>
              </div>
         </div>
@@ -317,7 +308,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   })
   export class ForgotPasswordDialog {
 	changPassForm: FormGroup;
-	constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,private fb: FormBuilder) {}
+	constructor(@Inject(MAT_DIALOG_DATA) 
+	public data: DialogData,
+	private fb: FormBuilder,
+	private dialogRef: MatDialogRef<ForgotPasswordDialog>) {}
+
+	get f() { return this.changPassForm.controls; }
+
 	ngOnInit(): void {
 		this.changPassForm = this.fb.group({
 			newpass: ['', Validators.compose([
@@ -330,7 +327,29 @@ export class LoginComponent implements OnInit, OnDestroy {
 				Validators.minLength(3)
 			])
 			]
-		});
+		},{
+			validator: this.MustMatch('newpass','confirmpass')
+		  }	
+		);
+	}
+
+	MustMatch(controlName: string, matchingControlName: string) {
+		return (formGroup: FormGroup) => {
+			debugger;
+			const control = formGroup.controls[controlName];
+			const matchingControl = formGroup.controls[matchingControlName];
+
+			if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+				// return if another validator has already found an error on the matchingControl
+				return;
+			}
+			// set error on matchingControl if validation fails
+			if (control.value !== matchingControl.value) {
+				matchingControl.setErrors({ mustMatch: true });
+			} else {
+				matchingControl.setErrors(null);
+			}
+		}
 	}
 
 	passHasError(controlName: string, validationType: string): boolean {
@@ -343,7 +362,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 		return result;
 	}
 
-	sendError(){
-		alert("LAs contraseñas no coinciden");
+	validate(confirmpass){
+		if(this.changPassForm.invalid){
+			return
+		}
+		this.dialogRef.close(confirmpass);
 	}
   }

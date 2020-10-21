@@ -57,6 +57,7 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(currentUserBases)).subscribe(res => {
       this.allBases = res;
+      this.store.dispatch(new SelectBase({base: this.allBases[0]}))
     })
 
    
@@ -66,8 +67,7 @@ export class TopbarComponent implements OnInit {
     });
 
      const baseDefault = this.allBases.find(b => b.baseId = 10);
-     this.formBases.get('baseName').setValue(10)
-  
+     this.formBases.get('baseName').setValue(this.allBases[0]?.baseId)
 
     //this.bases$ = this.store.pipe(select(currentUserBases));
 

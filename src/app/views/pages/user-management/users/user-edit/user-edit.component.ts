@@ -1,9 +1,10 @@
 // Angular
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 // RxJS
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 // NGRX
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
@@ -65,6 +66,9 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 	today = '';
 
+	areaControl = new FormControl();
+	filteredAreas: Observable<string[]>;
+
 
 
 	// Private properties
@@ -111,7 +115,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		this.store.pipe(select(SelectedBase)).subscribe(res => {
 			this.baseSel = res;
 		})
-		
 		this.store.pipe(select(SelectedAreas)).subscribe(res => {
 			this.allAreas = res.result;
 		})
@@ -146,7 +149,19 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscriptions.push(routeSubscription);
+
+		this.filteredAreas = this.areaControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
 	}
+
+	private _filter(value: string): string[] {
+		const filterValue = value.toLowerCase();
+	
+		return this.allAreas.filter(option => option.toLowerCase().includes(filterValue));
+	  }
 
 	ngOnDestroy() {
 		this.subscriptions.forEach(sb => sb.unsubscribe());
@@ -412,7 +427,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			changes: _user
 		};
 		this.store.dispatch(new UserUpdated( { partialUser: updatedUser, user: _user }));
-		const message = `User successfully has been saved.`;
+		const message = `El Usuario se Guardo Correctamente.`;
 		this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, true);
 		if (withBack) {
 			this.goBackWithId();
@@ -475,7 +490,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	  }
 
 	  gopermis(){
-		debugger;
 		console.log(this.user);
 		if(this.user){
 		  const url = `/page3/${this.user.userId}`;
