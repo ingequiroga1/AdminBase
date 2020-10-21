@@ -1,9 +1,10 @@
 // Angular
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 // RxJS
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 // NGRX
 import { Store, select } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
@@ -32,6 +33,7 @@ import {
 	selectLastCreatedUserId,
 	selectUsersActionLoading
 } from '../../../../../core/auth';
+
 
 @Component({
 	selector: 'kt-user-edit',
@@ -64,6 +66,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	allPositions: string[];
 
 	today = '';
+
+	userAreaControl = new FormControl(); // 21/10/20
+	userPositionControl = new FormControl();
+	filteredAreas: Observable<string[]>;
+	filteredPosition: Observable<string[]>;
 
 
 
@@ -111,7 +118,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		this.store.pipe(select(SelectedBase)).subscribe(res => {
 			this.baseSel = res;
 		})
-		
 		this.store.pipe(select(SelectedAreas)).subscribe(res => {
 			this.allAreas = res.result;
 		})
@@ -146,7 +152,25 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscriptions.push(routeSubscription);
+
+		this.filteredAreas = this.userAreaControl.valueChanges.pipe(
+			startWith(''),
+			map(value => this._filterAreas(value))
+		  );
+
+		  this.filteredPosition = this.userPositionControl.valueChanges.pipe(
+			startWith(''),
+			//map(value => this._filterPositions(value))
+		  );
 	}
+
+	private _filterAreas(value: string): string[] {
+		debugger;
+		const filterValue = value.toLowerCase();
+		return this.allAreas.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+	  }
+
+
 
 	ngOnDestroy() {
 		this.subscriptions.forEach(sb => sb.unsubscribe());

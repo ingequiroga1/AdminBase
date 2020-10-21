@@ -72,10 +72,10 @@
                                 </div>
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{'Correo electrónico' | translate }}*</mat-label>
+                                        <mat-label>{{'Correo Electrónico' | translate }}*</mat-label>
                                         <input formControlName="email" matInput/>
-                                        <mat-error>Email is
-                                            <strong>required</strong>
+                                        <mat-error>Email es
+                                            <strong>requerido</strong>
                                         </mat-error>
                                         <mat-hint align="start">Please enter
                                             <strong>Email</strong>
@@ -191,7 +191,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <label>{{ischecked}}</label>
+                                <label>Activo</label>
                                 <mat-slide-toggle [(ngModel)]="ischecked" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
                             </div>
                         </div>
@@ -207,10 +207,10 @@
                             <div class="d-flex flex-column">
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{"Area" | translate }}*</mat-label>
-                                        <input type="text" formControlName="userArea" matInput [matAutocomplete]="auto">
+                                        <mat-label>{{"Área" | translate }}*</mat-label>
+                                        <input type="text" [formControl]="userAreaControl" formControlName="userArea" matInput [matAutocomplete]="auto">
                                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                            <mat-option *ngFor="let area of allAreas" [value]="area">
+                                            <mat-option *ngFor="let area of filteredAreas | async" [value]="area">
                                                 {{area}}
                                             </mat-option>
                                         </mat-autocomplete>
@@ -219,7 +219,7 @@
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-label>{{"Puesto" | translate }}*</mat-label>
-                                        <input type="text" formControlName="userRole" matInput [matAutocomplete]="autoRole">
+                                        <input type="text" [formControl]="userPositionControl" formControlName="userRole" matInput [matAutocomplete]="autoRole">
                                         <mat-autocomplete autoActiveFirstOption #autoRole="matAutocomplete">
                                             <mat-option *ngFor="let position of allPositions" [value]="position">
                                                 {{position}}

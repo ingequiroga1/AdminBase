@@ -55,21 +55,19 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(currentUserBases)).subscribe(res => {
-      this.allBases = res;
-    })
 
-   
-    
     this.formBases = this.FB.group({
       baseName:['Unosquare']
     });
-
-     const baseDefault = this.allBases.find(b => b.baseId = 10);
-     this.formBases.get('baseName').setValue(10)
-  
-
-    //this.bases$ = this.store.pipe(select(currentUserBases));
+    this.store.pipe(select(currentUserBases)).subscribe(res => {
+      debugger;
+      this.allBases = res;
+      const bas = this.allBases[0];
+      this.store.dispatch(new SelectBase({base: bas}));
+      //this.formBases.get('baseName').setValue(10);
+    })
+     // const baseDefault = this.allBases.find(b => b.baseId = 10);
+    // this.bases$ = this.store.pipe(select(currentUserBases));
 
     // this.bases$.subscribe((bases: Base[])=>{
     //   const bas = bases.filter((v:Base)=>v.baseId===10)
@@ -79,7 +77,6 @@ export class TopbarComponent implements OnInit {
   }
 
   selectbase(event){
-    debugger;
     console.log(event.value);
     //   this.bases$.subscribe((bases: Base[])=>{
     //    const bas = bases.filter((v:Base)=>v.baseId===event.value)
