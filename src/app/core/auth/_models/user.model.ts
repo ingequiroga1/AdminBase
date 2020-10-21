@@ -32,7 +32,7 @@ export class User extends BaseModel {
    userBirthday: string;
    userMobile: number;
    expirationDate: string;
-   bloodtype: string;
+   bloodType: string;
    baseId: number;
    alergiesCondition: string;
    email: string;

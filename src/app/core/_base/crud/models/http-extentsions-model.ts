@@ -13,6 +13,7 @@ export class HttpExtenstionsModel {
    * @param filtrationFields: string[]
    */
   baseFilter(entities: any[], queryParams: QueryParamsModel, filtrationFields: string[] = []): QueryResultsModel {
+    debugger;
     // Filtration
     let entitiesResult = this.searchInArray(entities, queryParams.filter, filtrationFields);
 

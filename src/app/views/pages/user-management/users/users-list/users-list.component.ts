@@ -194,11 +194,16 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 			filter.userTypeId = this.filterType;
 		}
 
+		filter.userLastname = searchText;
+		if (!searchText) {
+			return filter;
+		}
+
 		filter.userName = searchText;
 		filter.userSurname = searchText;
 		filter.userLastname = searchText;
-		filter.position = searchText;
-		filter.area = searchText;
+		filter.userPosition = searchText;
+		filter.userArea = searchText;
 		return filter;
 	}
 

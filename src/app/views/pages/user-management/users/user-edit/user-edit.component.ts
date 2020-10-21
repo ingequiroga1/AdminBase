@@ -57,17 +57,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	addpermitions = false;
 
 	isMover= true; // 08/10/2020
-  
 	ischecked = 'Activo'; // 20/10/20
-	
 	allAreas: string[];
 
 	allPositions: string[];
 
 	today = '';
-
-	areaControl = new FormControl();
 	filteredAreas: Observable<string[]>;
+	filteredPositions: Observable<string[]>;
 
 
 
@@ -108,6 +105,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+		
 		this.store.dispatch(new AreasRequested());
           this.store.dispatch(new PositionRequested());
 		this.loading$ = this.store.pipe(select(selectUsersActionLoading));
@@ -123,7 +121,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			this.allPositions = res.result;
 		})
 
-		debugger;
 		const routeSubscription =  this.activatedRoute.params.subscribe(params => {
 			const id = params.id;
 			if (id && id > 0) {
@@ -136,6 +133,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 						this.oldUser = Object.assign({}, this.user);
 						this.addpermitions = true;
 						this.initUser();
+						this.reloadimg();
 					}
 				});
 			} else {
@@ -149,18 +147,27 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscriptions.push(routeSubscription);
-
-		this.filteredAreas = this.areaControl.valueChanges
+		const controls = this.userForm.controls;
+		this.filteredAreas = controls.userArea.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
+	  );
+	  this.filteredPositions = controls.userRole.valueChanges// this.positionControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterPos(value))
       );
 	}
 
 	private _filter(value: string): string[] {
 		const filterValue = value.toLowerCase();
-	
 		return this.allAreas.filter(option => option.toLowerCase().includes(filterValue));
+	  }
+
+	  private _filterPos(value: string): string[] {
+		const filterValue = value.toLowerCase();
+		return this.allPositions?.filter(option => option.toLowerCase().includes(filterValue));
 	  }
 
 	ngOnDestroy() {
@@ -212,8 +219,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		  Validators.required,
 		  Validators.maxLength(50)
 		])],
-	  userRole: [this.user.userPosition,Validators.required],
-	  userArea: [this.user.userArea,Validators.required],
+	  userRole: [this.user.userPosition],
+	  userArea: [this.user.userArea, Validators.required],
 	  userBirthday:[this.user.userBirthday],
 	  userMobile:[this.user.userMobile,Validators.compose([
 		  Validators.pattern('^[0-9]*$'),
@@ -247,7 +254,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
       neighborhood:[this.user.userStreet],
       state:[this.user.userState],
       city:[this.user.userCity],
-      bloodtype:[this.user.bloodtype],
+      bloodtype:[this.user.bloodType],
 	  alergiesCondition:[this.user.alergiesCondition],
       contactName: [this.user.contactName,Validators.compose([
 		Validators.pattern('^(?! +$)[A-Za-zăâîșțĂÂÎȘȚ -]+$'),
@@ -290,7 +297,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * @param id: number
 	 */
 	refreshUser(isNew: boolean = false, id = 0) {
-		debugger;
 		let url = this.router.url;
 		if (!isNew) {
 			this.router.navigate([url], { relativeTo: this.activatedRoute });
@@ -346,7 +352,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * Returns prepared data for save
 	 */
 	prepareUser(): User {
-		debugger;
 		const controls = this.userForm.controls;
 		const _user = new User();
 		_user.clear();
@@ -356,17 +361,19 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		_user.userId = this.user.userId;
 		_user.userTypeId = controls.userType.value;
 		_user.password = 'string';
-		_user.statusId = this.ischecked ? "Activo" : "Inactivo"; //20/10/20
+		_user.statusId = this.ischecked ? "Activo" : "Inactivo"; // 20/10/20
 		_user.username = controls.userName.value;
 		_user.userSurname = controls.userSurname.value;
 		_user.userLastname = controls.userLastname.value;
+		debugger;
 		_user.userPosition = controls.userRole.value;
 		_user.userArea = controls.userArea.value;
+		_user.userBirthday = controls.userBirthday.value;
 		_user.userMobile = +controls.userMobile.value;
 		// tslint:disable-next-line: max-line-length
 		_user.expirationDate =  controls.userType.value==='Mover' ? this.datepipe.transform(controls.expirationDate.value, 'yyyy-MM-dd') : this.today;
-		 //'2020-12-12';
-		_user.bloodtype = controls.bloodtype.value;
+		 // '2020-12-12';
+		_user.bloodType = controls.bloodtype.value;
 		_user.baseId = this.baseSel.baseId;
 		_user.alergiesCondition = controls.alergiesCondition.value;
 		_user.email = controls.email.value;
@@ -451,7 +458,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 	// image Preview
 	uploadimg(event){
-		debugger;
 		const file = (event.target as HTMLInputElement).files[0];
 		this.userimage = file;
 		const reader = new FileReader();
@@ -459,6 +465,15 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			this.imgpreview = reader.result as string;
 		}
 		reader.readAsDataURL(file)
+	}
+
+	reloadimg(){
+		debugger;
+		const reader = new FileReader();
+		reader.onload=() => {
+			this.imgpreview = reader.result as string;
+		}
+		reader.readAsDataURL(this.userimage)
 	}
 
 	/**
@@ -475,7 +490,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			 this.isMover = false;
 			 let today = new Date();
 		     let dd = String(today.getDate()).padStart(2, '0');
-			 let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+			 let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
 			 let yyyy = today.getFullYear();
 
 			 this.today =yyyy+'-'+mm+'-'+dd;

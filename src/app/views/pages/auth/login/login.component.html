@@ -53,12 +53,16 @@
             <!--end::Action-->
             <div class="text-align-center d-flex custom-mt-5rem">
                 <button id="kt_login_signin_submit" (click)="submit()" [ngClass]="{
-          'spinner spinner-right spinner-md spinner-light': loading
-        }" class="btn btn-primary font-weight-bold px-9 py-4 my-3 m-auto custom-btn-grow-0_4">{{ "Iniciar Sesión" | translate }}</button>
+                    'spinner spinner-right spinner-md spinner-light': loading
+                    }" class="btn btn-primary font-weight-bold px-9 py-4 my-3 m-auto custom-btn-grow-0_4">{{ "Iniciar Sesión" | translate }}</button>
             </div>
-
         </form>
         <!--end::Form-->
+        <div class="text-center py-4">
+            <a href="#">Términos de uso.</a>
+            <a href="#">Política de privacidad</a>
+        </div>
     </div>
     <!--end::Signin-->
+
 </div>

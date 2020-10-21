@@ -205,7 +205,7 @@
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-label>{{"Área" | translate }}*</mat-label>
-                                        <input type="text" [formControl]="areaControl" formControlName="userArea" matInput [matAutocomplete]="auto">
+                                        <input type="text" formControlName="userArea" matInput [matAutocomplete]="auto">
                                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                             <mat-option *ngFor="let area of filteredAreas | async" [value]="area">
                                                 {{area}}
@@ -218,18 +218,9 @@
                                         <mat-label>{{"Puesto" | translate }}*</mat-label>
                                         <input type="text" formControlName="userRole" matInput [matAutocomplete]="autoRole">
                                         <mat-autocomplete autoActiveFirstOption #autoRole="matAutocomplete">
-                                            <mat-option *ngFor="let position of allPositions" [value]="position">
+                                            <mat-option *ngFor="let position of filteredPositions | async" [value]="position">
                                                 {{position}}
                                             </mat-option>
-                                            <!-- <mat-option value="Coordinador">
-                                                Coordinador
-                                            </mat-option>
-                                            <mat-option value="Gerencia">
-                                                Gerencia
-                                            </mat-option>
-                                            <mat-option value="Dirección">
-                                                Dirección
-                                            </mat-option> -->
                                         </mat-autocomplete>
                                     </mat-form-field>
                                 </div>
