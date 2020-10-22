@@ -55,19 +55,22 @@ export class TopbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.formBases = this.FB.group({
+      baseName:['']
+    });
+
     this.store.pipe(select(currentUserBases)).subscribe(res => {
       this.allBases = res;
       this.store.dispatch(new SelectBase({base: this.allBases[0]}))
+      this.formBases.get('baseName').setValue(res[0]?.baseId)
     })
 
-   
-    
-    this.formBases = this.FB.group({
-      baseName:['Unosquare']
-    });
-
      const baseDefault = this.allBases.find(b => b.baseId = 10);
-     this.formBases.get('baseName').setValue(this.allBases[0]?.baseId)
+     
+
+
+
+
 
     //this.bases$ = this.store.pipe(select(currentUserBases));
 
