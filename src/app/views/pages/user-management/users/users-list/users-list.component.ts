@@ -97,8 +97,7 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 	 */
 	ngOnInit() {
 		this.paginator._intl.itemsPerPageLabel='Elementos por página';
-	
-		
+
 		// load roles list
 		const rolesSubscription = this.store.pipe(select(selectAllRoles)).subscribe(res => this.allRoles = res);
 		this.subscriptions.push(rolesSubscription);
@@ -113,7 +112,6 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
 			tap(() => {
-				debugger;
 				this.loadUsersList();
 			})
 		)
@@ -143,6 +141,7 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 			skip(1),
 			distinctUntilChanged()
 		).subscribe(res => {
+			debugger;
 			this.usersResult = res;
 		});
 		this.subscriptions.push(entitiesSubscription);
@@ -168,7 +167,6 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 	 * Load users list
 	 */
 	loadUsersList() {
-		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
 			this.filterConfiguration(),
